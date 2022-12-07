@@ -1,0 +1,24 @@
+###
+# List
+GET http://localhost:7077/boards
+
+###
+# List
+GET http://localhost:7077/boards?size=1&page=1
+
+
+###
+# Search
+GET http://localhost:7077/boards?size=10&page=1&sortColumn=SEQ&sortOrder=ASC
+
+
+###
+# insert
+POST http://localhost:7077/boards
+Content-Type: application/json
+
+{
+    "subject": "test-subject",
+    "content": "test-content",
+    "createdId": "test-createdId"
+}

@@ -1,0 +1,19 @@
+spring:
+  liquibase:
+    enabled: false
+    change-log: classpath:/db/changelog/changelog-master.xml
+
+  datasource:
+    url: jdbc:mariadb://host.docker.internal:3306/demodb?characterEncoding=UTF-8
+    driverClassName: org.mariadb.jdbc.Driver
+    username: root
+    password: osckorea!
+
+logging:
+  level:
+    org.springframework.jdbc.core: TRACE
+    org.springframework.jdbc.core.StatementCreatorUtils: TRACE
+
+
+server:
+  port: 7077
