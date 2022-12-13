@@ -4,7 +4,7 @@ spring:
     change-log: classpath:/db/changelog/changelog-master.xml
 
   datasource:
-    url: jdbc:mariadb://host.docker.internal:3306/demodb?characterEncoding=UTF-8
+    url: jdbc:mariadb://127.0.0.1:3306/demodb?characterEncoding=UTF-8
     driverClassName: org.mariadb.jdbc.Driver
     username: root
     password: osckorea!

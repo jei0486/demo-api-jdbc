@@ -6,23 +6,25 @@ import static java.util.stream.Collectors.joining;
 
 public class BoardSql {
 
-    public static String select(Sort sort) {
+    public static String selectByCreatedIdAndState(Sort sort) {
         return new StringBuilder()
-                .append("SELECT * ")
-                .append(" FROM BOARD")
-                .append(" WHERE")
-                .append(" CREATED_ID = :createdId")
+                .append("SELECT b.* ")
+                .append(" FROM BOARD b")
+                .append(" JOIN USER u on b.CREATED_ID = u.LOGIN_ID")
+                .append(" WHERE u.STATE = :state")
+                .append(" b.CREATED_ID = :createdId")
                 .append(" ORDER BY ").append(orderBy(sort))
                 .append(" LIMIT :pageSize OFFSET :offset")
                 .toString();
     }
 
-    public static String count() {
+    public static String countByCreatedIdAndState() {
         return  new StringBuilder()
                 .append("SELECT COUNT(*)")
-                .append(" FROM BOARD")
-                .append(" WHERE")
-                .append(" CREATED_ID = :createdId")
+                .append(" FROM BOARD b")
+                .append(" JOIN USER u on b.CREATED_ID = u.LOGIN_ID")
+                .append(" WHERE u.STATE = :state")
+                .append(" b.CREATED_ID = :createdId")
                 .toString();
     }
 

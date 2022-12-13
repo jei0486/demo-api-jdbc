@@ -3,7 +3,7 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <changeSet author="jin" id="2022-12-06-1">
-        <createTable tableName="board">
+        <createTable tableName="BOARD">
             <column name="SEQ" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -19,7 +19,7 @@
             <column name="CREATED_ID" type="VARCHAR(36)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATED_AT" type="TIMESTAMP(6)">
+            <column name="CREATED_AT" type="datetime">
                 <constraints nullable="false"/>
             </column>
             <column name="MODIFIED_ID" type="VARCHAR(36)">
@@ -32,20 +32,17 @@
     </changeSet>
 
     <changeSet author="jin" id="2022-12-06-2">
-        <createTable tableName="account">
+        <createTable tableName="USER">
             <column name="ID" type="VARCHAR(36)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="LOGIN_ID" type="VARCHAR(50)">
-                <constraints nullable="false" unique="true" uniqueConstraintName="UK_ACCOUNT_LOGIN_ID"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="UK_USER_LOGIN_ID"/>
             </column>
             <column name="NAME" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
             <column name="STATE" type="VARCHAR(30)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="EMAIL" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="PASSWORD" type="VARCHAR(50)">
@@ -55,13 +52,13 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <createIndex tableName="account" indexName="IX_ACCOUNT_LOGIN_ID">
+        <createIndex tableName="USER" indexName="IX_USER_LOGIN_ID">
             <column name="LOGIN_ID"/>
         </createIndex>
     </changeSet>
 
     <changeSet author="jin" id="2022-12-06-3">
-        <createTable tableName="comment">
+        <createTable tableName="COMMENT">
             <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -75,17 +72,17 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <createIndex tableName="comment" indexName="IX_COMMENT_BOARD_ID">
+        <createIndex tableName="COMMENT" indexName="IX_COMMENT_BOARD_ID">
             <column name="BOARD_ID"/>
         </createIndex>
-        <createIndex tableName="comment" indexName="IX_COMMENT_CREATED_BY">
+        <createIndex tableName="COMMENT" indexName="IX_COMMENT_CREATED_BY">
             <column name="CREATED_BY"/>
         </createIndex>
-        <createTable tableName="comment_comment">
+        <createTable tableName="COMMENT_COMMENT">
             <column name="ID" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"
                              foreignKeyName="FK_COMMENT_CONTENT_ID"
-                             referencedTableName="comment" referencedColumnNames="ID"
+                             referencedTableName="COMMENT" referencedColumnNames="ID"
                              deferrable="false" initiallyDeferred="false"/>
             </column>
             <column name="BODY" type="CLOB">

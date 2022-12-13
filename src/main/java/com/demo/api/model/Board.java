@@ -23,4 +23,5 @@ public class Board {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime modifiedAt;
+
 }

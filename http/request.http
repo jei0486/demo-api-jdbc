@@ -4,7 +4,7 @@ GET http://localhost:7077/boards
 
 ###
 # List
-GET http://localhost:7077/boards?size=1&page=1
+GET http://localhost:7077/boards?size=10&page=0
 
 
 ###
@@ -20,5 +20,17 @@ Content-Type: application/json
 {
     "subject": "test-subject",
     "content": "test-content",
-    "createdId": "test-createdId"
+    "createdId": "test"
+}
+
+
+###
+# insert
+POST http://localhost:7077/users
+Content-Type: application/json
+
+{
+    "name": "test",
+    "loginId": "test-2",
+    "password": "test"
 }

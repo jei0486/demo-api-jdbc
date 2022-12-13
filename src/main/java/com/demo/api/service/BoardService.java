@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,23 +22,40 @@ import java.util.stream.Collectors;
 public class BoardService {
     private final BoardRepository boardRepository;
 
-    public List<Board> boardList(int size,int page,String sortColumn,String sortOrder) {
-        int realPage = page <= 0 ? 0 : page - 1;
-        Pageable pageable = PageRequest.of(realPage, size, Sort.by(Sort.Direction.fromString(sortOrder), sortColumn));
+    public int countByParam(int page,int size,String param) {
+        PageRequest pageable = PageRequest.of(page, size);
+        Long count = boardRepository.countByParam(pageable);
+        return Long.valueOf(count).intValue();
+    }
+
+    public int totalCount(){
+        return (int) boardRepository.count();
+    }
+
+    public List<Board> boardList(Pageable pageable) {
+
+        //Pageable pageable = PageRequest.of(realPage, size, Sort.by(Sort.Direction.fromString(sortOrder), sortColumn));
+
         Page<BoardEntity> boardEntityList = boardRepository.findAll(pageable);
-        List<Board> collect = boardEntityList.stream().map(boardEntity -> ModelMapperUtil.map(boardEntity,Board.class)).collect(Collectors.toList());
+
+        List<Board> collect = new ArrayList<>();
+        if (!boardEntityList.isEmpty()){
+            collect = boardEntityList.stream().map(boardEntity -> ModelMapperUtil.map(boardEntity,Board.class)).collect(Collectors.toList());
+        }
         return collect;
     }
 
 
     // search
-    public List<Board> boardSearch(int size,int page,String sortColumn,String sortOrder,String param) {
+    public List<Board> boardSearch(Pageable pageable,String param) {
 
-        int realPage = page <= 0 ? 0 : page - 1;
-        Pageable pageable = PageRequest.of(realPage, size, Sort.by(Sort.Direction.fromString(sortOrder), sortColumn));
-        Page<BoardEntity> boardEntityPageList = boardRepository.find(pageable);
-        List<Board> boardList = boardEntityPageList.stream().map(boardEntity -> ModelMapperUtil.map(boardEntity,Board.class)).collect(Collectors.toList());
-        return boardList;
+        Page<BoardEntity> boardEntityList = boardRepository.findByParam(pageable);
+
+        List<Board> collect = new ArrayList<>();
+        if (!boardEntityList.isEmpty()){
+            collect = boardEntityList.stream().map(boardEntity -> ModelMapperUtil.map(boardEntity,Board.class)).collect(Collectors.toList());
+        }
+        return collect;
     }
 
     public Board show(Long boardId) throws IllegalArgumentException{

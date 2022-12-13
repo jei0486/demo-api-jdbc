@@ -32,15 +32,24 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public Page<BoardEntity> find(Pageable pageable) {
+    public Page<BoardEntity> findByParam(Pageable pageable) {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("offset", pageable.getOffset())
                 .addValue("pageSize", pageable.getPageSize());
 
         List<BoardEntity> board = this.jdbcOperations.query(
-                BoardSql.select(pageable.getSort()), parameterSource, this.rowMapper);
+                BoardSql.selectByCreatedIdAndState(pageable.getSort()), parameterSource, this.rowMapper);
 
         return PageableExecutionUtils.getPage(board, pageable, () ->
-                this.jdbcOperations.queryForObject(BoardSql.count(), parameterSource, Long.class));
+                this.jdbcOperations.queryForObject(BoardSql.countByCreatedIdAndState(), parameterSource, Long.class));
+    }
+
+    @Override
+    public Long countByParam(Pageable pageable) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("offset", pageable.getOffset())
+                .addValue("pageSize", pageable.getPageSize());
+
+        return this.jdbcOperations.queryForObject(BoardSql.countByCreatedIdAndState(), parameterSource, Long.class);
     }
 }
