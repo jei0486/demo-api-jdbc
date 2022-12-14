@@ -6,7 +6,7 @@ import static java.util.stream.Collectors.joining;
 
 public class BoardSql {
 
-    public static String selectByCreatedIdAndState(Sort sort) {
+    public static final String selectByCreatedIdAndState(Sort sort) {
         return new StringBuilder()
                 .append("SELECT b.* ")
                 .append(" FROM BOARD b")
@@ -18,7 +18,7 @@ public class BoardSql {
                 .toString();
     }
 
-    public static String countByCreatedIdAndState() {
+    public static final String countByCreatedIdAndState() {
         return  new StringBuilder()
                 .append("SELECT COUNT(*)")
                 .append(" FROM BOARD b")
@@ -28,7 +28,7 @@ public class BoardSql {
                 .toString();
     }
 
-    private static String orderBy(Sort sort) {
+    public static final String orderBy(Sort sort) {
         return sort.stream()
                 .map(order -> order.getProperty() + " " + order.getDirection().name())
                 .collect(joining(", "));

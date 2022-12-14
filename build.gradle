@@ -1,8 +1,10 @@
 plugins {
 	id 'java'
+	id 'groovy'
 	id 'org.springframework.boot' version '2.7.6'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'com.google.cloud.tools.jib' version '3.3.1'
+	id "org.sonarqube" version "3.5.0.2730"
 }
 
 group = 'com.demo'
@@ -19,12 +21,23 @@ repositories {
 	mavenCentral()
 }
 
+
+// /src/main/groovy 안의 *.java 인코딩
+[compileGroovy, compileTestGroovy]*.options*.encoding = 'UTF-8'
+// /src/main/groovy 안의 *.groovy 인코딩
+[compileGroovy, compileTestGroovy]*.groovyOptions*.encoding = 'UTF-8'
+
 dependencies {
+
+	// spring data jdbc
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	implementation "org.liquibase:liquibase-core" // DB 형상관리
+	implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.9'
+
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
 
 	compileOnly 'org.projectlombok:lombok'
@@ -39,3 +52,25 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+sourceSets {
+	main {
+		java {
+			srcDirs = [] // don't compile Java code twice
+		}
+		groovy {
+			srcDirs = [ 'src/main/groovy', 'src/main/java']
+		}
+	}
+}
+
+sonarqube {
+	properties {
+		property "sonar.projectKey", "jei0486_demo-api-jdbc"
+		property "sonar.organization", "jei0486-seul"
+		property "sonar.host.url", "https://sonarcloud.io"
+	}
+}
+
+
+

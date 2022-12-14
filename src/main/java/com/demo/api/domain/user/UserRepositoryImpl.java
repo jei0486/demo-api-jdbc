@@ -14,22 +14,22 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     @Transactional
     public void deleteById(String id){
-        User user = this.jdbcAggregateOperations.findById(id,User.class);
-        if (user == null){
+        UserEntity userEntity = this.jdbcAggregateOperations.findById(id, UserEntity.class);
+        if (userEntity == null){
             throw new TransientDataAccessResourceException("user not exist.id " + id);
         }
 
-        this.delete(user);
+        this.delete(userEntity);
     }
 
     @Transactional
-    public void delete (User entity){
+    public void delete (UserEntity entity){
         entity.delete();
         this.jdbcAggregateOperations.update(entity);
     }
 
     @Transactional
-    public void deleteAll(Iterable<? extends User> entities){
+    public void deleteAll(Iterable<? extends UserEntity> entities){
         entities.forEach(this::delete);
     }
 }

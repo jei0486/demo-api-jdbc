@@ -39,7 +39,7 @@ public class SimpleEncryptor implements Encryptor {
             byte[] decrypted = cipher.doFinal(encrypted);
             return new String(decrypted, StandardCharsets.UTF_8);
         } catch (Exception ex) {
-            throw new RuntimeException("Decrypt email is failed.", ex);
+            throw new RuntimeException("Decrypt value is failed.", ex);
         }
     }
 }
