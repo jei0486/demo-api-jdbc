@@ -12,7 +12,7 @@ public class BoardSql {
                 .append(" FROM BOARD b")
                 .append(" JOIN USER u on b.CREATED_ID = u.LOGIN_ID")
                 .append(" WHERE u.STATE = :state")
-                .append(" b.CREATED_ID = :createdId")
+                .append(" AND b.CREATED_ID = :createdId")
                 .append(" ORDER BY ").append(orderBy(sort))
                 .append(" LIMIT :pageSize OFFSET :offset")
                 .toString();
@@ -24,7 +24,7 @@ public class BoardSql {
                 .append(" FROM BOARD b")
                 .append(" JOIN USER u on b.CREATED_ID = u.LOGIN_ID")
                 .append(" WHERE u.STATE = :state")
-                .append(" b.CREATED_ID = :createdId")
+                .append(" AND b.CREATED_ID = :createdId")
                 .toString();
     }
 
